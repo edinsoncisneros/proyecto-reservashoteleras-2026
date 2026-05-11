@@ -1,41 +1,169 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>Reservas</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+
+        body {
+            background-color: #f4f6f9;
+        }
+
+        .titulo {
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #0d6efd;
+        }
+
+        .card-table {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .img-reserva {
+            height: 70px;
+            width: 90px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+
+    </style>
 </head>
+
 <body>
 
-<h1>LISTA DE RESERVAS</h1>
+<div class="container">
 
-<a th:href="@{/reservas/nuevo}">Nueva Reserva</a>
+    <h1 class="titulo">🏨 LISTA DE RESERVAS DEL HOTEL 🏨</h1>
 
-<table border="1">
+    <div th:if="${mensajeExito}"
+         class="alert alert-success">
 
-<tr>
-    <th>ID</th>
-    <th>Nombre</th>
-    <th>Habitación</th>
-    <th>Entrada</th>
-    <th>Salida</th>
-    <th>Confirmada</th>
-    <th>Acciones</th>
-</tr>
+        <span th:text="${mensajeExito}"></span>
 
-<tr th:each="reserva : ${reservas}">
-    <td th:text="${reserva.id}"></td>
-    <td th:text="${reserva.nombreCliente}"></td>
-    <td th:text="${reserva.habitacion}"></td>
-    <td th:text="${reserva.fechaEntrada}"></td>
-    <td th:text="${reserva.fechaSalida}"></td>
-    <td th:text="${reserva.confirmada ? 'Sí' : 'No'}"></td>
+    </div>
 
-    <td>
-        <a th:href="@{'/reservas/editar/' + ${reserva.id}}">Editar</a>
-        <a th:href="@{'/reservas/eliminar/' + ${reserva.id}}">Eliminar</a>
-    </td>
-</tr>
+    <div th:if="${mensajeError}"
+         class="alert alert-danger">
 
-</table>
+        <span th:text="${mensajeError}"></span>
+
+    </div>
+
+    <div class="text-end mb-3">
+
+        <a th:href="@{/reservas/nuevo}"
+           class="btn btn-success">
+
+            Nueva Reserva
+
+        </a>
+
+    </div>
+
+    <div class="card-table">
+
+        <table class="table table-hover table-striped align-middle text-center">
+
+            <thead class="table-dark">
+
+            <tr>
+
+                <th>ID</th>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Habitación</th>
+                <th>Entrada</th>
+                <th>Salida</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+
+            </tr>
+
+            </thead>
+
+            <tbody>
+
+            <tr th:each="reserva : ${reservas}">
+
+                <td th:text="${reserva.id}"></td>
+
+                <td>
+
+                    <img th:if="${reserva.imagen != null and !reserva.imagen.isBlank()}"
+                         th:src="@{'/uploads/' + ${reserva.imagen}}"
+                         class="img-reserva">
+
+                    <span th:unless="${reserva.imagen != null and !reserva.imagen.isBlank()}">
+                        Sin imagen
+                    </span>
+
+                </td>
+
+                <td th:text="${reserva.nombreCliente}"></td>
+
+                <td th:text="${reserva.habitacion}"></td>
+
+                <td th:text="${reserva.fechaEntrada}"></td>
+
+                <td th:text="${reserva.fechaSalida}"></td>
+
+                <td>
+
+                    <span th:if="${reserva.confirmada}"
+                          class="badge bg-success">
+
+                        Confirmada
+
+                    </span>
+
+                    <span th:unless="${reserva.confirmada}"
+                          class="badge bg-warning text-dark">
+
+                        Pendiente
+
+                    </span>
+
+                </td>
+
+                <td>
+
+                    <a th:href="@{'/reservas/editar/' + ${reserva.id}}"
+                       class="btn btn-primary btn-sm">
+
+                        ✏ Editar
+
+                    </a>
+
+                    <a th:href="@{'/reservas/eliminar/' + ${reserva.id}}"
+                       class="btn btn-danger btn-sm"
+                       onclick="return confirm('¿Eliminar reserva?')">
+
+                        🗑 Eliminar
+
+                    </a>
+
+                </td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
