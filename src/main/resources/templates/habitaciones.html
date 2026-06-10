@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>Habitaciones</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <style>
+
+        body {
+            background-color: #f4f6f9;
+        }
+
+        .card-habitacion {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: 0.3s;
+            border: none;
+        }
+
+        .card-habitacion:hover {
+            transform: scale(1.02);
+        }
+
+        .imagen {
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .titulo {
+            font-weight: bold;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container mt-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h1 class="text-primary titulo">
+
+            🏨 Habitaciones Disponibles
+
+        </h1>
+
+        <div class="d-flex gap-2">
+
+            <a th:href="@{/}"
+               class="btn btn-secondary">
+
+                ⬅ Inicio
+
+            </a>
+
+            <a th:href="@{/habitaciones/nuevo}"
+               class="btn btn-success">
+
+                ➕ Nueva Habitación
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-4 mb-4"
+             th:each="habitacion : ${habitaciones}">
+
+            <div class="card card-habitacion">
+
+                <img th:if="${habitacion.imagen != null and !habitacion.imagen.isBlank()}"
+                     th:src="@{'/uploads/' + ${habitacion.imagen}}"
+                     class="card-img-top imagen">
+
+                <img th:unless="${habitacion.imagen != null and !habitacion.imagen.isBlank()}"
+                     src="https://via.placeholder.com/400x220"
+                     class="card-img-top imagen">
+
+                <div class="card-body">
+
+                    <h4 th:text="${habitacion.nombre}"
+                        class="mb-3"></h4>
+
+                    <p class="fs-5">
+
+                        Precio:
+                        <strong class="text-success">
+
+                            $<span th:text="${habitacion.precio}"></span>
+
+                        </strong>
+
+                    </p>
+
+                    <div class="mb-3">
+
+                        <span th:if="${habitacion.disponible}"
+                              class="badge bg-success fs-6">
+
+                            Disponible
+
+                        </span>
+
+                        <span th:unless="${habitacion.disponible}"
+                              class="badge bg-danger fs-6">
+
+                            Ocupada
+
+                        </span>
+
+                    </div>
+
+                    <div class="d-flex gap-2">
+
+                        <a th:href="@{'/habitaciones/editar/' + ${habitacion.id}}"
+                           class="btn btn-primary btn-sm">
+
+                            ✏ Editar
+
+                        </a>
+
+                        <a th:href="@{'/habitaciones/eliminar/' + ${habitacion.id}}"
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('¿Eliminar habitación?')">
+
+                            🗑 Eliminar
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

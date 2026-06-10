@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>Login</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <style>
+
+        body {
+            background-color: #f4f6f9;
+        }
+
+        .card-login {
+            max-width: 450px;
+            margin: 80px auto;
+            padding: 25px;
+            border-radius: 12px;
+            background: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card-login">
+
+        <!-- Título -->
+        <h2 class="text-center text-primary mb-4">
+            Iniciar Sesión
+        </h2>
+
+        <!-- Error -->
+        <div th:if="${error}"
+             class="alert alert-danger">
+
+            <span th:text="${error}"></span>
+
+        </div>
+
+        <!-- Formulario -->
+        <form th:action="@{/login}"
+              method="post">
+
+            <!-- Correo -->
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Correo
+                </label>
+
+                <input type="email"
+                       name="correo"
+                       class="form-control"
+                       required>
+
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Contraseña
+                </label>
+
+                <input type="password"
+                       name="password"
+                       class="form-control"
+                       required>
+
+            </div>
+
+            <!-- Botón -->
+            <button type="submit"
+                    class="btn btn-primary w-100">
+
+                Ingresar
+
+            </button>
+
+        </form>
+
+        <div class="text-center mt-3">
+
+            <a th:href="@{/registro}">
+                Crear cuenta
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
+```
